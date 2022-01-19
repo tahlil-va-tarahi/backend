@@ -1,13 +1,14 @@
 <?php
 
+use App\Models\User;
+use App\Models\Product;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategotyController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
-use App\Http\Resources\UserResource;
-
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategotyController;
 
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
@@ -44,7 +45,7 @@ Route::post('payment/verify',[PaymentController::class,'verify'])->name('verify'
 Route::get('test',function (){
 //    return UserResource::collection(\App\Models\User::latest('id')->paginate());
 //    return \App\Models\User::find(1)->products()->get()->contains(\App\Models\Product::find(1));
-
+    User::find(2)->products()->detach();
 });
 
 

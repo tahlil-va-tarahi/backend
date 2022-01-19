@@ -143,6 +143,8 @@ class ProductController extends Controller
         $isDeletePublicPic = File::delete(public_path($product->thumbnail_url));
         $isDeleteStoragePic = File::delete(public_path($product->source_url));
 
+        $product->users()->detach();
+
         if ($isDeletePublicPic && $isDeleteStoragePic) {
             $product->delete();
             return response()->json([
