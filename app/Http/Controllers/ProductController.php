@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -140,20 +141,20 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): JsonResponse
     {
-        $isDeletePublicPic = File::delete(public_path($product->thumbnail_url));
-        $isDeleteStoragePic = File::delete(public_path($product->source_url));
+        //$isDeletePublicPic = File::delete(public_path($product->thumbnail_url));
+        //$isDeleteStoragePic = File::delete(public_path($product->source_url));
 
-        $product->users()->detach();
-
-        if ($isDeletePublicPic && $isDeleteStoragePic) {
+        
+        try {
+            $product->users()->detach();
             $product->delete();
             return response()->json([
                 'message' => 'محصول با موفقیت حذف شد.'
             ]);
-        }
+        }catch(Exception $e){
         return response()->json([
             'error' => 'عملیات خطا با خطا مواجه شد.'
-        ], 500);
+        ], 500);}
     }
 
     public function downloadProduct(Product $product)
